@@ -20,3 +20,7 @@ p = np.random.uniform(-p_0, p_0,N) # análogo a lo anterior pero con p.
 # en lugar de utilizar una sumatoria como en (3), calcularemos los promedios de las funciones, que representan prácticamente lo mismo que en las ecuaciones
 M_x = np.mean(np.cos(theta)) # estas son listas al igaul que \theta
 M_y = np.mean(np.sin(theta))
+
+# Ahora definamos la Aceleración (muy importante para el método Leapfrog):
+a = -M_x*np.sin(theta) + M_y*np.cos(theta) # esta corresponde a \ddot{\theta}
+ 
