@@ -5,8 +5,8 @@ import numpy as np # Biblioteca siempre relevante.
 import matplotlib.pyplot as plt # Para graficar
 
 # Primero debemos establecer las condiciones iniciales de los parámetros \theta y p, 
-# consideraremos N = 1000 partículas:
-N= 1000
+# consideraremos N = 10000 partículas:
+N= 10000
 
 # El paper menciona que la distribución inicial de la densidad de espacio de fase es de tipo waterbag o steplike. En particular:
 theta_0 = 1.131 # valor tope de la distribución en \theta, entre 0 y \pi
@@ -40,10 +40,10 @@ for t in range(T):
 # Al finalizar el ciclo, tenemos los valores de \theta y p para el último paso de tiempo, asumiremos que este es el momento en el que el estado es QSS
 # ahora graficaremos la densidad de espacio de fase del estado QSS:
 
-plt.figure(figsize=(6,5))
-H, xedges, yedges, im = plt.hist2d(theta, p, bins=50, range=[[-np.pi,np.pi], [-3,3]], cmap='hot') # H es la matriz 2D del histograma, contiene los (theta,pi)
+plt.figure(figsize=(10,5))
+plt.hist2d(theta, p, bins=50, range=[[-50,50], [p.min(), p.max()]], cmap='hot')
 plt.colorbar(label='Número de partículas')
 plt.xlabel(r'$\theta$')
 plt.ylabel(r'$p$')
-plt.title(f'Densidad de espacio de fase (t={T*h:.2f})')
+plt.title(f'Densidad de espacio de fase en t={T*h:.2f}', fontsize=14)
 plt.show()
