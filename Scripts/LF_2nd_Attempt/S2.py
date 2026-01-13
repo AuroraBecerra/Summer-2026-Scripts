@@ -4,7 +4,7 @@ import numpy as np
 
 # Primero, debemos importar los parámetros del script anterior
 
-from LF_2nd_Attempt_S1 import N, theta, p, a
+from Scripts.LF_2nd_Attempt.S1 import N, theta, p, a
 
 T = 1000 # definimos primero los pasos temporales
 h = 0.01 # longitud temporal entre cada paso (igual que en el paper)

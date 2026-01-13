@@ -7,7 +7,7 @@ import numpy as np # Biblioteca siempre relevante.
 
 # Primero debemos establecer las condiciones iniciales de los parámetros \theta y p, 
 # consideraremos N = 10000 partículas:
-N = 500
+N = 1000
 
 # El paper menciona que la distribución inicial de la densidad de espacio de fase es de tipo waterbag o steplike. En particular:
 theta_0 = 1.131 # valor tope de la distribución en \theta, entre 0 y \pi
