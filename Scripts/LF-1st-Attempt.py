@@ -41,7 +41,7 @@ for t in range(T):
 # ahora graficaremos la densidad de espacio de fase del estado QSS:
 
 plt.figure(figsize=(10,5))
-plt.hist2d(theta, p, bins=50, range=[[-50,50], [p.min(), p.max()]], cmap='hot')
+plt.hist2d(theta, p, bins=50, range=[[-np.pi,np.pi], [-2, 2]], cmap='hot')
 plt.colorbar(label='Número de partículas')
 plt.xlabel(r'$\theta$')
 plt.ylabel(r'$p$')
