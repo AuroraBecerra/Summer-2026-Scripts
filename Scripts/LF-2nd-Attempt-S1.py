@@ -4,7 +4,6 @@
 # En esta versión, tenemos la opción de crear los parámetros iniciales uniformados mediante np.mgrid
 
 import numpy as np # Biblioteca siempre relevante.
-import matplotlib.pyplot as plt # Para graficar
 
 # Primero debemos establecer las condiciones iniciales de los parámetros \theta y p, 
 # consideraremos N = 10000 partículas:

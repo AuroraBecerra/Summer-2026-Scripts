@@ -1,5 +1,7 @@
 # Aquí va la segunda parte del script original, donde se ejecuta el ciclo de Leapfrog
 
+import numpy as np
+
 # Primero, debemos importar los parámetros del script anterior
 
 from LF-2nd-Attempt-S1.py import theta, p, a
