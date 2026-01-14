@@ -6,7 +6,7 @@ import numpy as np
 
 from S1 import N, theta, p, a
 
-T = 10000 # definimos primero los pasos temporales
+T = 50000 # definimos primero los pasos temporales
 h = 0.01 # longitud temporal entre cada paso (igual que en el paper)
 
 # Ahora vamos a agregar el código para guardar snapshots de (t, theta, p) a través del ciclo LF, para luego crear una visualización de la evolución temporal del espacio de fases.
