@@ -5,7 +5,7 @@
 # El número de partículas y los pasos de tiempo seguirán siendo los mismos por temas de eficiencia
 
 import numpy as np
-N = 1000
+N = 10000
 theta_0 = 1.131 # Me parece que este valor sigue igual
 p_0 = 1.90 # Este es diferente
 
