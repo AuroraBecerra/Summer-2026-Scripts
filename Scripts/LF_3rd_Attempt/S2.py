@@ -6,7 +6,7 @@ import numpy as np
 
 from S1 import N, theta, p, a
 
-T = 1000 # definimos primero los pasos temporales
+T = 10000 # definimos primero los pasos temporales
 h = 0.01 # longitud temporal entre cada paso (igual que en el paper)
 
 # Como primero intento, solo usaremos listas
