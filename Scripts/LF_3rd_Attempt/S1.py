@@ -4,7 +4,7 @@
 # Primer script donde definimos parámetros iniciales y la función aceleración:
 
 import numpy as np
-N = 1000
+N = 10000
 theta_0 = 1.131 
 p_0 = 1.39 
 
