@@ -87,7 +87,7 @@ def update(frame):
     time_text.set_text(f'$t$ = {t_s[frame]:.2f}')
     return im_anim, time_text
 
-ani = FuncAnimation(fig, update, frames=min(N_frames, 300),
+ani = FuncAnimation(fig, update, frames=min(N_frames, 30000),
                     interval=50, blit=True, repeat=True)
 
 plt.tight_layout()
