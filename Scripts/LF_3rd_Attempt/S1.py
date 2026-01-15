@@ -18,6 +18,7 @@ theta= theta.flatten()
 p =p.flatten()
 
 # Aquí vamos a modificar un poco la función de como la teníamos antes
+# El profesor recomendó definir los senos y cosenos directamente en la función para luego usar esos resultados, y no repetir cálculos
 def a(theta_i): 
     sinth = np.sin(theta_i)
     costh = np.cos(theta_i)
@@ -27,3 +28,5 @@ def a(theta_i):
     M = np.hypot(M_x, M_y)
     a = -M_x*sinth + M_y*costh
     return a, M
+
+# En este script solo definimos funciones y parámetros, si los llamamos en otro script, no es necesario ejecutar este script (solo guardarlo)

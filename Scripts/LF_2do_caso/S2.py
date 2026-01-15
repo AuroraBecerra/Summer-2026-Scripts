@@ -3,7 +3,7 @@
 # Aquí es imperativo que modifiquemos el ciclo para que en cada iteración se guarden los datos de magnetización para así lograr crear su gráfico en el tiempo
 
 import numpy as np
-
+from tqdm import trange
 from S1 import N, theta, p, a
 
 T = 50000 # definimos primero los pasos temporales
@@ -21,23 +21,23 @@ theta_list = []
 p_list = []
 times = []
 
+ac, M = a(theta) #Definimos ac como la aceleración y M como la magnetización
+
 # Realizamos el ciclo:
-for t in range(T):
-    ac, M = a(theta) #Definimos ac como la aceleración y M como la magnetización
+for t in trange(T):
     #Guardamos los datos en las listas
     M_list.append(M)
     t_list.append(t * h)
     # Guardamos los snapshots: 
     if t % save_every == 0: # % es la operpación módulo, devuelve el resto de la división 
-        theta_list.append(theta.copy())  # El .copy() es una recomendación de Deepseek aunque no veo que sea necesario
-        p_list.append(p.copy())
+        theta_list.append(theta)  ## El .copy() es una recomendación de Deepseek aunque no veo que sea necesario
+        p_list.append(p)
         times.append(t * h)
     # Ciclo
     p_m = p + (h/2)*ac # velocidad a medio tiempo 
     theta = theta + h*p_m # spin a tiempo entero 
+    ac, M = a(theta) # Definimos las nuevas aceleraciones y magnetizaciones con theta actualizado a tiempo entero
     p = p_m + (h/2)*ac # velocidad a tiempo entero
-
-# Nota: Usar np.savez(f'{t}.npz', theta=theta, p=p, Mx=Mx, My=My) dentro del ciclo resulta muy ineficiente
  
 #Convertimos las listas en arrays: 
 M_array = np.array(M_list)

@@ -20,8 +20,11 @@ p =p.flatten()
 
 # Aquí vamos a modificar un poco la función de como la teníamos antes
 def a(theta_i): 
-    M_x = np.mean(np.cos(theta_i)) 
-    M_y = np.mean(np.sin(theta_i)) 
-    M = (M_x**2 + M_y**2)**0.5
-    a = -M_x*np.sin(theta_i) + M_y*np.cos(theta_i) 
+    sinth = np.sin(theta_i)
+    costh = np.cos(theta_i)
+    M_x = np.mean(costh) 
+    M_y = np.mean(sinth) 
+    #M = (M_x**2 + M_y**2)**0.5
+    M = np.hypot(M_x, M_y)
+    a = -M_x*sinth + M_y*costh
     return a, M

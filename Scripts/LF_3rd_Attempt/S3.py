@@ -17,6 +17,13 @@ p_s = datos['p_s']
 t_s = datos['t_s']
 N_frames = len(t_s) # para la creación del video del espacio de fase
 
+pi = np.pi
+
+# Aquí vamos a redefinir los thetas para que estén dentro del intervalo [-pi,pi]
+# Primero se desplaza el ángulo al intervalo [0,2 pi], luego lo volvemos a desplazar el ángulo redefinido a [0,2 pi]
+theta = (theta + pi) % (2*pi) - pi
+theta_s = (theta_s + pi) % (2*pi) - pi
+
 # ahora graficaremos la densidad de espacio de fase del estado QSS Y la evolución de la magnetización
 
 # Grafico de la densidad del espacio de fase del QSS:
@@ -73,8 +80,7 @@ ax2.set_ylabel(r'$p$', fontsize=11)
 ax2.set_title('Evolución de la densidad de fase', fontsize=12)
 
 # Crear imagen inicial vacía
-H0, xedges, yedges = np.histogram2d(theta_s[0], p_s[0], bins=50,
-                                     range=[[-np.pi, np.pi], [-2, 2]])
+H0, xedges, yedges = np.histogram2d(theta_s[0], p_s[0], bins=50, range=[[-np.pi, np.pi], [-2, 2]])
 im_anim = ax2.imshow(H0.T, origin='lower', aspect='auto',
                      extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]],
                      cmap='viridis', vmin=0, vmax=H0.max()*1.2)

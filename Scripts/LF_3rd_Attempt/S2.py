@@ -2,11 +2,12 @@
 
 # Aquí es imperativo que modifiquemos el ciclo para que en cada iteración se guarden los datos de magnetización para así lograr crear su gráfico en el tiempo
 
-from tqdm import trange
+from tqdm import trange # Este es para medir la cantidad de tiempo que toma el código para ejecturarse, principalmente el ciclo for
 
 import numpy as np
 
-from S1 import N, theta, p, a
+# Como aquí importamos elementos de S1, no es necesario ejecutar S1 (se ejecuta ahí)
+from S1 import N, theta, p, a 
 
 T = 10000 # definimos primero los pasos temporales
 h = 0.01 # longitud temporal entre cada paso (igual que en el paper)
@@ -23,7 +24,8 @@ theta_list = []
 p_list = []
 times = []
 
-ac, M = a(theta) #Definimos ac como la aceleración y M como la magnetización
+#Definimos ac como la aceleración y M como la magnetización
+ac, M = a(theta) # Aquí se calculan la ac y M de los parámetros iniciales.
 
 # Realizamos el ciclo:
 for t in trange(T):
@@ -31,15 +33,16 @@ for t in trange(T):
     M_list.append(M)
     t_list.append(t * h)
     # Guardamos los snapshots: 
-    if t % save_every == 0: # % es la operpación módulo, devuelve el resto de la división 
-        theta_list.append(theta)  ## El .copy() es una recomendación de Deepseek aunque no veo que sea necesario
+    if t % save_every == 0: # % es la operpación módulo, devuelve el resto de la división, aquí guarda los t = 1, 2, ...
+        theta_list.append(theta)  
         p_list.append(p)
-        times.append(t * h)
+        times.append(t*h)
     # Ciclo
-    p_m = p + (h/2)*ac # velocidad a medio tiempo 
-    theta = theta + h*p_m # spin a tiempo entero 
+    p_m = p + (h/2)*ac # velocidad a medio tiempo, se usa la aceleración y t iniciales
+    theta = theta + h*p_m # spin a tiempo entero (se actualiza theta)
     ac, M = a(theta) # Definimos las nuevas aceleraciones y magnetizaciones con theta actualizado a tiempo entero
     p = p_m + (h/2)*ac # velocidad a tiempo entero
+    # Aquí ya están actualizados theta y p a tiempo entero, y se vuelve a correr el ciclo.
 
 # Nota: Usar np.savez(f'{t}.npz', theta=theta, p=p, Mx=Mx, My=My) dentro del ciclo resulta muy ineficiente
  
@@ -47,10 +50,11 @@ for t in trange(T):
 M_array = np.array(M_list)
 t_array = np.array(t_list)
 
-
 theta_array = np.array(theta_list) 
 p_array = np.array(p_list)
 times_array = np.array(times)
 
 # Incluímos los resultados de magnetizacion en cada iteración del ciclo en el archivo final que queremos guardar
 np.savez('resultados_qss.npz', theta=theta, p=p, N=N, T=T, h=h, t=t_array, M=M_array, theta_s= theta_array, p_s= p_array, t_s=times_array)
+
+# Con N = 1000 y T = 10000 el script se ejecuta en \approx 4s (2220.36 its/s)

@@ -17,6 +17,10 @@ p_s = datos['p_s']
 t_s = datos['t_s']
 N_frames = len(t_s) # para la creación del video del espacio de fase
 
+pi = np.pi
+theta = (theta + pi) % (2*pi) - pi
+theta_s = (theta_s + pi) % (2*pi) - pi
+
 # ahora graficaremos la densidad de espacio de fase del estado QSS Y la evolución de la magnetización
 
 # Grafico de la densidad del espacio de fase del QSS:
@@ -45,11 +49,10 @@ gs = gridspec.GridSpec(2, 2, height_ratios=[1, 1.2], width_ratios=[1, 1])
 
 # Primer gráfico: Densidad de fase final (arriba izquierda)
 ax0 = fig.add_subplot(gs[0, 0])
-H, xedges, yedges = np.histogram2d(theta, p, bins=100, 
-                                    range=[[-np.pi, np.pi], [-2, 2]])
+H, xedges, yedges = np.histogram2d(theta, p, bins=100, range=[[-np.pi, np.pi], [-2, 2]] ) 
 im = ax0.imshow(H.T, origin='lower', aspect='auto', 
                 extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]], 
-                cmap='viridis')
+                cmap='viridis', vmin=0, vmax=9)
 ax0.set_xlabel(r'$\theta$', fontsize=11)
 ax0.set_ylabel(r'$p$', fontsize=11)
 ax0.set_title(f'Densidad final (t={T*h:.2f})', fontsize=12)
