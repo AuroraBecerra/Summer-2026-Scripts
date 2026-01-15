@@ -4,7 +4,7 @@ from tqdm import trange
 import numpy as np
 from S1 import N, theta, p, a 
 
-T = 500000 # definimos primero los pasos temporales
+T = 70000 # definimos primero los pasos temporales
 h = 0.01 # longitud temporal entre cada paso (igual que en el paper)
 
 # Ahora vamos a agregar el código para guardar snapshots de (t, theta, p) a través del ciclo LF, para luego crear una visualización de la evolución temporal del espacio de fases.
@@ -60,3 +60,4 @@ np.savez('resultados_qss.npz', theta=theta, p=p, N=N, T=T, h=h, t=t_array, M = M
 
 # Con N = 1000 y T = 10000 el script se ejecuta en \approx 1s (5538.56 its/s)
 # Con N = 100000 y T = 100000 el script se ejecuta en \approx 20s (4772.90 its/s)
+# Con N = 100000 y T = 70000 el script se ejecuta en \approx 18s (3808.05 its/s)

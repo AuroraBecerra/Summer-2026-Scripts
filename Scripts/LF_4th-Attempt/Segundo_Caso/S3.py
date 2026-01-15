@@ -38,7 +38,7 @@ H, xedges, yedges = np.histogram2d(theta, p, bins=100,
                                     range=[[-np.pi, np.pi], [-2, 2]])
 im = ax0.imshow(H.T, origin='lower', aspect='auto', 
                 extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]], 
-                cmap='viridis')
+                cmap='viridis',vmax=10)
 ax0.set_xlabel(r'$\theta$', fontsize=11)
 ax0.set_ylabel(r'$p$', fontsize=11)
 ax0.set_title(f'Densidad de Espacio de Fase Final (t={T*h:.2f})', fontsize=11)
