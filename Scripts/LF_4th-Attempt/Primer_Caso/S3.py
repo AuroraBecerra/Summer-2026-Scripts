@@ -91,4 +91,5 @@ ani = FuncAnimation(fig, update, frames=min(N_frames, 30000),
                     interval=50, blit=True, repeat=True)
 
 plt.tight_layout()
+#ani.save('evolucion_fase_1.gif', writer='pillow', fps=15, dpi=100)
 plt.show()
