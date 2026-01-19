@@ -56,9 +56,6 @@ ax1.grid(alpha=0.3)
 ax1.set_xlim(0, t[-1])
 ax1.legend(loc='best', fontsize=9, framealpha=0.8)
 
-# Opcional: añadir líneas horizontales en y=0
-#ax1.axhline(y=0, color='k', linestyle=':', linewidth=0.5, alpha=0.5)
-
 # Animación (abajo)
 ax2 = fig.add_subplot(gs[1, :])
 ax2.set_xlim(-np.pi, np.pi)

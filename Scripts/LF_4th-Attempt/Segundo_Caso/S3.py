@@ -34,7 +34,7 @@ gs = gridspec.GridSpec(2, 2, height_ratios=[1, 1.2], width_ratios=[1, 1])
 
 # Primer gráfico: Densidad de fase final (arriba izquierda)
 ax0 = fig.add_subplot(gs[0, 0])
-H, xedges, yedges = np.histogram2d(theta, p, bins=100, 
+H, xedges, yedges = np.histogram2d(theta, p, bins=50, 
                                     range=[[-np.pi, np.pi], [-2, 2]])
 im = ax0.imshow(H.T, origin='lower', aspect='auto', 
                 extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]], 
@@ -71,7 +71,7 @@ ax2.set_title('Evolución de Densidad de Espacio de Fase', fontsize=13)
 H0, xedges, yedges = np.histogram2d(theta_s[0], p_s[0], bins=50, range=[[-np.pi, np.pi], [-2, 2]])
 im_anim = ax2.imshow(H0.T, origin='lower', aspect='auto',
                      extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]],
-                     cmap='viridis', vmin=0, vmax=H0.max()*1.2)
+                     cmap='viridis', vmin=0,vmax=10)# vmax=H0.max()*1.2)
 cbar = fig.colorbar(im_anim, ax=ax2, label='Densidad')
 time_text = ax2.text(0.02, 0.95, '', transform=ax2.transAxes, fontsize=11,
                      verticalalignment='top',
