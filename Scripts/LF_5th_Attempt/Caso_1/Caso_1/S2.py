@@ -6,57 +6,60 @@ import numpy as np
 import time
 from S1 import N, theta, p, a 
 
-# En los pasos de tiempo solo haremos lo suficiente para llegar a t = 650
-T = 70000 # 2 **17 #131072 # definimos primero los pasos temporales
+# Parámetros
+T = 65000 # En los pasos de tiempo solo haremos lo suficiente para llegar a t = 650
 h = 0.01 # longitud temporal entre cada paso (igual que en el paper)
+save_every = 100 # Guardaremos datos de magnetización cada t = 1, 2, 3 ...
 
-# Ahora vamos a no incluir M_y en los códigos, pues este es nulo en todo t, y como entonces |M_x| = M para todo t, tampoco incluiremos M, pues hay suficiente información en M_x, y así reduciremos costos computacionales 
-
-# Ya no guardaremos snapshots (no haremos simulación)
-# save_every = 100  # Guardar cada 100 pasos (cada 1 unidad de tiempo, dado h=0.01)
-
-# Agregamos listas para guardar las componentes de magnetización
-Mx_list = []
-t_list = []
-
-save_every = 100  # Vamos a guardar cada 100 pasos (cada 1 unidad de tiempo, dado h=0.01) el M_x, para no usar mucho RAM
-
-# Guardaremos solo el snapshot t = 650 de theta y p para graficar la densidad del espacio de fase del QSS
-theta_650 = None
-p_650 = None
-t_650 = None
-
-#Definimos ac como la aceleración y Mx como la componente x de magnetización
-ac, M_x = a(theta) # Aquí se calculan la ac y M_x de las condiciones iniciales
+# Creamos una simulación compilada con numba
+# Todos los datos deben guardarse dentro del ciclo
 @njit
 def numba(theta, p, T, h, save_every):
-    # Guardamos los datos de magnetización en las 
+    """
+    Devuelve: t_array, Mx_array, theta, p, t
+    """
+    # Pre-asignamos espacio (vacío) para los arrays
+    n_saves = T // save_every + 1 # 651 espacios
+    t_array = np.zeros(n_saves)
+    Mx_array = np.zeros(n_saves)
+    
+    # Calculamos los datos de aceleración y magnetización iniciales
+    ac, M_x = a(theta)
+    save_idx = 0
+    
+    # Ciclo
     for t in range(T):
-        if t % save_every == 0: # t = 1, 2, ...
-            t_list.append(t*h)
-            Mx_list.append(M_x)
-        if t_650 is None and (t*h) >= 650: # Aquí solo guardaremos el snapshot t = 650
-            theta_650 = theta
-            p_650 = p
-            t_650 = t*h
+        t_real = t * h
+        
+        # Guardamos los datos de magnetización en los arrays
+        if t % save_every == 0: # t_real = 1, 2, ...
+            t_array[save_idx]= t_real # Guardamos en la posición save_idx de los respectivos arrays
+            Mx_array[save_idx]= M_x
+            save_idx += 1 # Pasamos a la siguiente posición en el indicador save_idx (+1)
+    
         # Leapfrog
-        p_m = p + (h/2)*ac
-        theta = theta + h*p_m
-        ac, M_x = a(theta)
-        p = p_m + (h/2) * ac
+        p_m = p + (h/2)*ac # velocidad a medio tiempo
+        theta = theta + h*p_m # posición a medio tiempo
+        ac, M_x = a(theta) # calculamos las nuevas aceleraciones y magnetización, dado el dato de la posición a tiempo entero
+        p = p_m + (h/2) * ac # velocidad a tiempo entero
+        # Se guardan los valores finales de theta y p
+    
+    return t_array[:save_idx], Mx_array[:save_idx], theta, p
 
-# Queda guardado el valor final de theta y p
+# Método para medir el tiempo (ya que al usar numba ya no tenemos trange )
+print("Iniciando simulación con Numba...")
+start_time = time.time()
 
-#Convertimos las listas en arrays: 
-Mx_array = np.array(Mx_list)
-t_array = np.array(t_list)
+# Ejecutamos la simulación compilada
+t_array, Mx_array, theta, p = numba(theta, p, T, h, save_every)
 
-theta_s = np.array(theta_650) 
-p_s = np.array(p_650)
+# Medimos el tiempo elapsado en que se ejecute la sumulación
+elapsed = time.time() - start_time
 
-# np.savez('resultados_qss.npz', theta=theta, p=p, N=N, T=T, h=h, t=t_array, Mx = Mx_array , theta_s = theta_s, p_s= p_s, t_s=t_s)
-np.savez('resultados_qss.npz', N=N, T=T, h=h, t=t_array, Mx = Mx_array , theta_s = theta_s, p_s= p_s)
+# Guardamos los resultados
+np.savez('resultados_qss.npz', N=N, T=T, h=h, t = t_array, Mx = Mx_array, theta = theta, p = p)
 
-# Con N = 1000 y T = 10000 el script se ejecuta en \approx 1s (5538.56 its/s)
-# Con N = 100000 y T = 100000 el script se ejecuta en \approx 20s (4772.90 its/s)
-# Con N = 100000 y T = 70000 el script se ejecuta en \approx 18s (3808.05 its/s)
+# Extras
+print(f"\n✓ Simulación completada en {elapsed:.1f} segundos")
+print(f"✓ Velocidad: {T/elapsed:.0f} iteraciones/segundo")
+print(f"✓ Puntos guardados: {len(t_array)}")

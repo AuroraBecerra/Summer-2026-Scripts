@@ -11,14 +11,16 @@ T = datos['T']
 h = datos['h']
 t= datos['t'] 
 Mx = datos['Mx']
-theta_s = datos['theta_s']
-p_s = datos['p_s']
+theta = datos['theta']
+p = datos['p']
+
+t_s = T * h
 
 pi = np.pi
 
 # Aquí vamos a redefinir los thetas para que estén dentro del intervalo [-pi,pi]
 # Primero se desplaza el ángulo al intervalo [0,2 pi], luego lo volvemos a desplazar el ángulo redefinido a [0,2 pi]
-theta_s = (theta_s + pi) % (2*pi) - pi
+theta = (theta + pi) % (2*pi) - pi
 
 # ahora graficaremos la densidad de espacio de fase del estado QSS en t = 650 y la evolución de la magnetización (M_x)
 
@@ -62,7 +64,7 @@ ax_inset = fig.add_axes([ax_main.get_position().x0 + left * ax_main.get_position
 # ax_inset = fig.add_axes([0.15, 0.15, 0.3, 0.3])  # [left, bottom, width, height] de la figura completa
 
 # Ahora crear el gráfico de densidad de fase en el inset
-H, xedges, yedges = np.histogram2d(theta_s, p_s, bins=80, 
+H, xedges, yedges = np.histogram2d(theta, p, bins=80, 
                                     range=[[-np.pi, np.pi], [-2, 2]])
 im = ax_inset.imshow(H.T, origin='lower', aspect='auto', 
                      extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]], 
